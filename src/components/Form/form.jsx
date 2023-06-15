@@ -3,7 +3,6 @@ import { WraperForm, Input, BtnSubmit, Label } from './form.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/Contacts/operations';
 import { nanoid } from 'nanoid'
-// import { addContact } from 'redux/Contacts/contactsReducer';
 
 const contactsState = state => state.contacts.items;
 

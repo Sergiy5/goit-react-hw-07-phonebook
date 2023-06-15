@@ -6,17 +6,16 @@ import ContactsList from './Contacts/contacts';
 import Filter from './Filter/filter';
 import { Container } from './mainContainer.styled';
 import { fetchContacts } from 'redux/Contacts/operations';
-import { getError, getIsLoading } from 'redux/Contacts/selectors';
+import { selectError, selectIsLoading } from 'redux/Contacts/selectors';
 
 const App = () => {
   const dispatch = useDispatch()
-  const isLoading = useSelector(getIsLoading)
-  const error = useSelector(getError)
+  const isLoading = useSelector(selectIsLoading)
+  const error = useSelector(selectError)
 
   
   useEffect(() => {
     dispatch(fetchContacts());  
-    console.log("second")
   }, [dispatch])
   
     return (
