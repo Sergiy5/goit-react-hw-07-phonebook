@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/Contacts/operations';
-// import { deleteContact } from 'redux/Contacts/contactsReducer';
+import { selectFilter, selectContacts } from 'redux/Contacts/selectors';
 import {List, Item, Button, Paragraf } from './contacts.styled';
 
 const ContactsList = () => {
-  const contacts = useSelector(state => state.contacts.items);
-  const dataFilter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts);
+  const dataFilter = useSelector(selectFilter);
   const dispatch = useDispatch();
     
   const onFilteredContacts = () => {
@@ -19,7 +19,6 @@ const ContactsList = () => {
   };
   
   const filteredContacts = onFilteredContacts();
-    console.log('filteredContacts', filteredContacts);
   return (
     <List>
       {filteredContacts.map(({ id, name, number }) => (

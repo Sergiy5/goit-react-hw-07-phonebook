@@ -1,23 +1,21 @@
 import { useState } from 'react';
-import { WraperForm, Input, BtnSubmit, Label } from './form.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/Contacts/operations';
 import { nanoid } from 'nanoid'
+import { WraperForm, Input, BtnSubmit, Label } from './form.styled';
+import { addContact } from 'redux/Contacts/operations';
+import { selectContacts } from 'redux/Contacts/selectors';
 
-const contactsState = state => state.contacts.items;
 
 const Form = ()=> {
   const [contact, setContact] = useState({
     name: '',
     number: '',
   });
- 
-  const contacts = useSelector(contactsState);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {
     setContact(prev => ({ ...prev, [target.name]: target.value }));
-   
   };
 
   const isContactExsist = newName => {

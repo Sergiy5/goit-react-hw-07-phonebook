@@ -26,9 +26,6 @@ export const addContact = createAsyncThunk(
   // тому що в цій операції він нам не потрібен
   async (contact, thunkAPI) => {
     const { name, number, id } = contact;
-    console.log('contact', contact);
-// const stringifyContact=JSON.stringify(contact);
-
     try {
       const response = await axios.post('/contacts', { name, number, id });
       // При успішному запиті повертаємо проміс із даними

@@ -1,10 +1,11 @@
 
 import { useDispatch, useSelector } from "react-redux";
-import { filterContact } from 'redux/Contacts/contactsReducer';
+import { filterContact } from 'redux/Contacts/contactsFilterSlice';
+import { selectFilter } from "redux/Contacts/selectors";
 import { WraperFilter, Label, Input } from "./filter.styled"
 
 const Filter = () => {
-    const dataFilter = useSelector(state => state.filter);
+    const dataFilter = useSelector(selectFilter);
   const dispatch = useDispatch();
   
   const HandlChange = e => {
