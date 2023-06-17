@@ -1,58 +1,39 @@
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { addContact, fetchContacts, deleteContact } from './operations';
 import { initialState } from './initialState';
+import { addContactFULFILLED, createStatus, deleteContactFULFILLED, fetchContactsFULFILLED, handleFULFILLED, handlePENDING, handleREJECTED } from './hanlerActionsStatus';
 
-const PENDING = state => {
-   state.isLoading = true;
-};
-
- const REJECTED = (state, action) => {
-   state.isLoading = false;
-   state.error = action.payload;
-};
- 
-const addContactFULFILLED = (state, action) => {
-
-  state.items.push(action.payload);
-};
-const fetchContactsFULFILLED = (state, action) => {
-state.isLoading = false;
-state.error = null;
-  state.items = action.payload;
-};
-const deleteContactFULFILLED = (state, { payload }) => {
-state.isLoading = false;
-state.error = null;
-  state.items = state.items.filter(({ id }) => id !== payload.id);
-};
-// const FULFILLED = (state) => {
-// state.isLoading = false;
-// state.error = null};
+const STATUSES = {
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  FULFILLED: 'fulfilled',
+}
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   extraReducers: (builder) => {
+    const { PENDING, REJECTED, FULFILLED } = STATUSES;
     builder
-      // .addCase(fetchContacts.pending, PENDING)
       .addCase(fetchContacts.fulfilled, fetchContactsFULFILLED)
-      .addCase(fetchContacts.rejected, REJECTED)
-      // .addCase(addContact.pending, PENDING)
       .addCase(addContact.fulfilled, addContactFULFILLED)
-      .addCase(addContact.rejected, REJECTED)
-      // .addCase(deleteContact.pending, PENDING)
       .addCase(deleteContact.fulfilled, deleteContactFULFILLED)
-      .addCase(deleteContact.rejected, REJECTED)
-      .addMatcher(
-        isAnyOf([
-          fetchContacts.pending,
-          addContact.pending,
-          deleteContact.pending,
-        ]),
-        PENDING
-      );
+      .addMatcher(createStatus(PENDING), handlePENDING)
+      .addMatcher(createStatus(REJECTED), handleREJECTED)
+      .addMatcher(createStatus(FULFILLED),handleFULFILLED);
    },
 })
 
 export const phoneBookReducer = contactsSlice.reducer;
 
+//  Попередній варіант без рефакторингу
+
+ // .addCase(fetchContacts.pending, PENDING)
+      // .addCase(fetchContacts.fulfilled, fetchContactsFULFILLED)
+      // .addCase(fetchContacts.rejected, REJECTED)
+      // .addCase(addContact.pending, PENDING)
+      // .addCase(addContact.fulfilled, addContactFULFILLED)
+      // .addCase(addContact.rejected, REJECTED)
+      // .addCase(deleteContact.pending, PENDING)
+      // .addCase(deleteContact.fulfilled, deleteContactFULFILLED)
+      // .addCase(deleteContact.rejected, REJECTED)
